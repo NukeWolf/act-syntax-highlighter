@@ -1,0 +1,60 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "ACT",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    },
+    { "include": "#comments" },
+    { "include": "#types" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block",
+          "begin": "^/\\*",
+          "end": "\\*/"
+        },
+        {
+          "name": "comment.line.double-slash",
+          "match": "//.*$"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "comment": "keyword",
+          "match": "\\b(defproc|chp|import|prs)\\b",
+          "name": "keyword.other.act"
+        }
+      ]
+    },
+
+    "types": {
+      "patterns": [
+        {
+          "match": "\\b(int|bool|enum|chan)\\b",
+          "name": "storage.type.act"
+        }
+      ]
+    },
+
+    "strings": {
+      "name": "string.quoted.double.act",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.act",
+          "match": "\\\\."
+        }
+      ]
+    }
+  },
+  "scopeName": "source.act"
+}
