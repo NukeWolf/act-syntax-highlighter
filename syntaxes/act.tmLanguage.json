@@ -3,13 +3,14 @@
   "name": "ACT",
   "patterns": [
     {
-      "include": "#keywords"
-    },
-    {
       "include": "#strings"
     },
     { "include": "#comments" },
-    { "include": "#types" }
+    {
+      "include": "#keywords"
+    },
+    { "include": "#constants" },
+    { "include": "#defproc" }
   ],
   "repository": {
     "comments": {
@@ -29,7 +30,7 @@
       "patterns": [
         {
           "comment": "keyword",
-          "match": "\\b(defproc|chp|import|prs)\\b",
+          "match": "\\b(defchan|chp|import|prs)\\b",
           "name": "keyword.other.act"
         }
       ]
@@ -38,8 +39,16 @@
     "types": {
       "patterns": [
         {
-          "match": "\\b(int|bool|enum|chan)\\b",
-          "name": "storage.type.act"
+          "match": "\\b(int|bool|enum|chan|pint|preal|pbool|ptype)(\\?\\!|\\!\\?|\\!|\\?)?\\W",
+          "name": "meta.storage.type.act",
+          "captures": {
+            "1": {
+              "name": "storage.type.act"
+            },
+            "2": {
+              "name": "storage.modifier.act"
+            }
+          }
         }
       ]
     },
@@ -54,7 +63,60 @@
           "match": "\\\\."
         }
       ]
-    }
+    },
+    "defproc": {
+      "patterns": [
+        {
+          "name": "meta.template",
+          "match": "(template) <(.+)>",
+          "captures": {
+            "1": {
+              "name": "keyword.other.template.act"
+            },
+            "2": {
+              "patterns": [{ "include": "#types" }]
+            }
+          }
+        },
+        {
+          "name": "meta.function.act",
+          "match": "(defproc) +([A-z\\d_]+)",
+          "captures": {
+            "1": {
+              "name": "keyword.other.defproc.act"
+            },
+            "2": {
+              "name": "entity.name.function.proc.act"
+            }
+          }
+        },
+        {
+          "begin": "\\(",
+          "end": "\\)",
+          "name": "meta.proc.parameters",
+          "patterns": [{ "include": "#types" }]
+        },
+        {
+          "begin": "{",
+          "end": "}",
+          "name": "meta.block",
+          "patterns": [{ "include": "#types" }]
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "match": "\\b\\d+(?i:e\\d+)?\\b",
+          "name": "constant.numeric.integer.act"
+        },
+        {
+          "match": "\\b\\d+\\.\\d+(?i:e\\d+)?\\b",
+          "name": "constant.numeric.real.act"
+        }
+      ]
+    },
+    "prs_lang": {}
   },
   "scopeName": "source.act"
 }
