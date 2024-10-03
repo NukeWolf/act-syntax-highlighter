@@ -1,0 +1,32 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "CHP",
+  "patterns": [{ "include": "#comments" }, { "include": "#strings" }],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block",
+          "begin": "/\\*",
+          "end": "\\*/"
+        },
+        {
+          "name": "comment.line.double-slash",
+          "match": "//.*$"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.act",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.act",
+          "match": "\\\\."
+        }
+      ]
+    }
+  },
+  "scopeName": "source.chp"
+}

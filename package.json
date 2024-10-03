@@ -1,8 +1,9 @@
 {
   "name": "act-syntax-highlighter",
-  "displayName": "ACT Syntax Highlighter",
+  "displayName": "ACT/PRS Syntax Highlighter",
   "description": "Syntax Highlighting for Asynchronous Circuit Toolkit language",
-  "version": "0.0.1",
+  "publisher": "whyalex",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.90.0"
   },
@@ -32,6 +33,17 @@
           ".prs"
         ],
         "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "chp",
+        "aliases": [
+          "CHP",
+          "chp"
+        ],
+        "extensions": [
+          ".chp"
+        ],
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
@@ -44,6 +56,11 @@
         "language": "prs",
         "scopeName": "source.prs",
         "path": "./syntaxes/prs.tmLanguage.json"
+      },
+      {
+        "language": "chp",
+        "scopeName": "source.chp",
+        "path": "./syntaxes/chp.tmLanguage.json"
       }
     ]
   },

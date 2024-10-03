@@ -27,7 +27,7 @@
       "patterns": [
         {
           "comment": "keyword",
-          "match": "\\b(defchan|import|export|namespace)\\b",
+          "match": "\\b(defchan|import|export|namespace|open)\\b",
           "name": "keyword.control.act"
         }
       ]
@@ -230,8 +230,9 @@
           "include": "#strings"
         },
         { "include": "#prs-block" },
+        { "include": "#chp-block" },
         { "include": "#def" },
-
+        { "include": "#guard" },
         { "include": "#variable-declaration" },
         { "include": "#variable-assignment" },
         { "include": "#constants" }
@@ -247,6 +248,23 @@
       },
       "name": "meta.block.prs",
       "patterns": [{ "include": "source.prs" }]
+    },
+    "chp-block": {
+      "begin": "(chp)\\s*{",
+      "end": "}",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control"
+        }
+      },
+      "name": "meta.block.chp",
+      "patterns": [{ "include": "source.chp" }]
+    },
+    "guard": {
+      "name": "meta.guard",
+      "begin": "(\\*)?\\[",
+      "end": "\\]",
+      "patterns": [{ "include": "#comments" }, { "include": "#guard" }]
     },
     "constants": {
       "patterns": [

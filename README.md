@@ -13,8 +13,12 @@ Features basic syntax highlighting for all components in the act language and ba
 - [ ] ACT Channels
 - [ ] Sizing and other methods.
 
-### 0.0.1
+## Releases
+
+### 1.0.0
 
 Initial Relase of basic Syntax
 
 ---
+
+### 1.0.1
