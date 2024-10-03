@@ -4,18 +4,17 @@
   "patterns": [
     { "include": "#comments" },
     { "include": "#keywords" },
-    { "include": "#constants" },
-    { "include": "#defproc" },
     {
       "include": "#strings"
-    }
+    },
+    { "include": "#def" }
   ],
   "repository": {
     "comments": {
       "patterns": [
         {
           "name": "comment.block",
-          "begin": "^/\\*",
+          "begin": "/\\*",
           "end": "\\*/"
         },
         {
@@ -28,16 +27,117 @@
       "patterns": [
         {
           "comment": "keyword",
-          "match": "\\b(defchan|chp|import|prs)\\b",
-          "name": "keyword.other.act"
+          "match": "\\b(defchan|import|export|namespace)\\b",
+          "name": "keyword.control.act"
         }
+      ]
+    },
+    "variable-access": {
+      "name": "support.variable_access.act",
+      "patterns": [
+        {
+          "name": "punctuation.separator.dot-access.act",
+          "match": "\\."
+        },
+        { "include": "#function-template-inputs" }
+      ]
+    },
+    "variable-declaration": {
+      "name": "support.var-decl",
+      "begin": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(\\?\\!|\\!\\?|\\!|\\?)?(<[a-zA-Z0-9_,\\{\\} ]*>)?[\\s]+([a-zA-Z_][a-zA-Z0-9_\\[\\]]*(?:[\\s]*,[\\s]*[a-zA-Z_][a-zA-Z0-9_\\[\\]]*)*)",
+      "end": ";",
+      "beginCaptures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#types"
+            },
+            {
+              "name": "entity.name.type",
+              "match": ".+"
+            }
+          ]
+        },
+        "2": { "name": "storage.modifier.act" },
+        "3": { "patterns": [{ "include": "#function-template-inputs" }] },
+        "4": { "name": "variable.parameter" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        {
+          "name": "punctuation.separator.comma",
+          "match": ","
+        },
+        {
+          "name": "variable.parameter",
+          "match": "[a-zA-Z_][a-zA-Z0-9_\\[\\]]*"
+        }
+      ]
+    },
+    "variable-assignment": {
+      "name": "support.var_assignment.statement",
+      "patterns": [
+        {
+          "match": "\\b([a-zA-Z_][^=]*)\\s*(=)\\s*([^;]*)\\s*;",
+          "captures": {
+            "1": { "patterns": [{ "include": "#variable-access" }] },
+            "2": { "name": "keyword.operator.assignment" },
+            "3": { "patterns": [{ "include": "#variable-access" }] }
+          }
+        }
+      ]
+    },
+    "parameter-declaration": {
+      "patterns": [
+        { "include": "#comments" },
+        {
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#types"
+                },
+                {
+                  "name": "entity.name.type",
+                  "match": ".+"
+                }
+              ]
+            },
+            "2": { "name": "storage.modifier.act" },
+            "4": { "name": "variable.parameter" }
+          },
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(\\?\\!|\\!\\?|\\!|\\?)?(<[a-zA-Z0-9_,]*>)?[\\s]+([a-zA-Z_][a-zA-Z0-9_\\[\\]]*(?:[\\s]*,[\\s]*[a-zA-Z_][a-zA-Z0-9_\\[\\]]*)*)"
+        }
+      ]
+    },
+    "function-template-inputs": {
+      "patterns": [
+        { "include": "#constants" },
+        { "include": "#operators" },
+        {
+          "match": "[a-zA-Z_][a-zA-Z0-9_]*",
+          "name": "variable.parameter"
+        }
+      ]
+    },
+    "parameter-list": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.comma",
+          "match": ","
+        },
+        {
+          "name": "punctuation.terminator.semicolon",
+          "match": ";"
+        },
+        { "include": "#parameter-declaration" }
       ]
     },
 
     "types": {
       "patterns": [
         {
-          "match": "\\b(int|bool|enum|chan|pint|preal|pbool|ptype)(\\?\\!|\\!\\?|\\!|\\?)?\\W",
+          "match": "\\b(int|bool|enum|chan|pint|preal|pbool|ptype)(\\?\\!|\\!\\?|\\!|\\?)?",
           "name": "meta.storage.type.act",
           "captures": {
             "1": {
@@ -62,23 +162,26 @@
         }
       ]
     },
-    "defproc": {
+    "def": {
       "patterns": [
+        { "include": "#comments" },
+
         {
           "name": "meta.template",
-          "match": "(template) *<(.+)>",
+          "match": "(template) *<(.+?)>",
           "captures": {
             "1": {
               "name": "keyword.control.template.act"
             },
             "2": {
-              "patterns": [{ "include": "#types" }]
+              "name": "meta.proc.parameters",
+              "patterns": [{ "include": "#parameter-list" }]
             }
           }
         },
         {
           "name": "meta.function.act",
-          "match": "(defproc) +([A-z\\d_]+)",
+          "match": "(defproc) +([A-z\\d_\\[\\]]+)",
           "captures": {
             "1": {
               "name": "keyword.other.defproc.act"
@@ -89,32 +192,66 @@
           }
         },
         {
+          "name": "meta.function.act",
+          "match": "(defcell) +([A-z\\d_\\[\\]]+)",
+          "captures": {
+            "1": {
+              "name": "keyword.other.defcell.act"
+            },
+            "2": {
+              "name": "entity.name.function.cell.act"
+            }
+          }
+        },
+        {
           "begin": "\\(",
           "end": "\\)",
           "name": "meta.proc.parameters",
-          "patterns": [{ "include": "#types" }]
+          "patterns": [{ "include": "#parameter-list" }]
         },
         {
-          "begin": "{",
-          "end": "}",
-          "name": "meta.block",
-          "patterns": [{ "include": "#types" }, { "include": "#comments" }]
+          "include": "#block"
         }
+      ]
+    },
+    "block": {
+      "begin": "{",
+      "end": "}",
+      "name": "meta.block",
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#keywords" },
+        {
+          "include": "#strings"
+        },
+        { "include": "#def" },
+
+        { "include": "#block" },
+        { "include": "#variable-declaration" },
+        { "include": "#variable-assignment" },
+        { "include": "#constants" }
       ]
     },
     "constants": {
       "patterns": [
         {
-          "match": "\\b\\d+(?i:e\\d+)?\\b",
+          "match": "\\b-?\\d+(?i:e\\d+)?\\b",
           "name": "constant.numeric.integer.act"
         },
         {
-          "match": "\\b\\d+\\.\\d+(?i:e\\d+)?\\b",
+          "match": "\\b-?\\d+\\.\\d+(?i:e\\d+)?\\b",
           "name": "constant.numeric.real.act"
         }
       ]
     },
-    "prs_lang": {}
+    "operators": {
+      "name": "keyword.operator",
+      "patterns": [
+        {
+          "match": "-|\\+|\\*|\\/|\\^|!|&|>|<|=="
+        }
+      ]
+    }
   },
   "scopeName": "source.act"
 }
