@@ -2,15 +2,13 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "ACT",
   "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#constants" },
+    { "include": "#defproc" },
     {
       "include": "#strings"
-    },
-    { "include": "#comments" },
-    {
-      "include": "#keywords"
-    },
-    { "include": "#constants" },
-    { "include": "#defproc" }
+    }
   ],
   "repository": {
     "comments": {
@@ -68,10 +66,10 @@
       "patterns": [
         {
           "name": "meta.template",
-          "match": "(template) <(.+)>",
+          "match": "(template) *<(.+)>",
           "captures": {
             "1": {
-              "name": "keyword.other.template.act"
+              "name": "keyword.control.template.act"
             },
             "2": {
               "patterns": [{ "include": "#types" }]
@@ -100,7 +98,7 @@
           "begin": "{",
           "end": "}",
           "name": "meta.block",
-          "patterns": [{ "include": "#types" }]
+          "patterns": [{ "include": "#types" }, { "include": "#comments" }]
         }
       ]
     },
