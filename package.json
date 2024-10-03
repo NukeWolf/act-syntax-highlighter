@@ -21,6 +21,17 @@
           ".act"
         ],
         "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "prs",
+        "aliases": [
+          "PRS",
+          "prs"
+        ],
+        "extensions": [
+          ".prs"
+        ],
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
@@ -28,6 +39,11 @@
         "language": "act",
         "scopeName": "source.act",
         "path": "./syntaxes/act.tmLanguage.json"
+      },
+      {
+        "language": "prs",
+        "scopeName": "source.prs",
+        "path": "./syntaxes/prs.tmLanguage.json"
       }
     ]
   },

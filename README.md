@@ -4,9 +4,14 @@ Language Support for Asynchronous Circuit Toolkit language.
 
 ## Features
 
-Features basic syntax highlighting for all components in the act language.
+Features basic syntax highlighting for all components in the act language and basic PRS syntax highlighting.
 
 ## Features TODO
+
+- [ ] Loops Support for Act and PRS
+- [ ] Full PRS support with pass gates
+- [ ] ACT Channels
+- [ ] Sizing and other methods.
 
 ### 0.0.1
 
