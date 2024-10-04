@@ -116,7 +116,7 @@
         { "include": "#constants" },
         { "include": "#operators" },
         {
-          "match": "[a-zA-Z_][a-zA-Z0-9_]*",
+          "match": "[a-zA-Z_][a-zA-Z0-9_\\.]*",
           "name": "variable.parameter"
         }
       ]
@@ -275,6 +275,10 @@
         {
           "match": "\\b-?\\d+\\.\\d+(?i:e\\d+)?\\b",
           "name": "constant.numeric.real.act"
+        },
+        {
+          "match": "\\b(true|false)\\b",
+          "name": "constant.language.boolean.act"
         }
       ]
     },

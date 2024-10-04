@@ -11,3 +11,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Added
 
 - Basic Guard and CHP wrapper syntax implemented
+
+## 1.0.2
+
+- Boolean constants added to act
+- dot_struct access included in highlighting.
